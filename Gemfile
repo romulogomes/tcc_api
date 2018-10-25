@@ -26,7 +26,6 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'pg', '~> 0.21.0'
 gem 'rack-cors', require: 'rack/cors'
-gem "rspec-rails", "~> 3.1.0"
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
@@ -35,8 +34,10 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'faker'
   gem 'shoulda-matchers', '4.0.0.rc1'
-  gem 'rails-controller-testing' # If you are using Rails 5.x
+  gem 'rspec-rails', '~> 3.7'
+  gem 'rails-controller-testing'
   gem 'database_cleaner'
+  gem 'factory_bot_rails'
 
 end
 

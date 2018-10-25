@@ -29,19 +29,19 @@ module Api
 
             def update
                 student = Student.find(student_params["id"]).update(student_params)
-                render json: {message:'Estudante Salvo', data:student},status: :ok
+                render json: Student.find(student_params["id"])
             end
 
                   
             def save
 				students = Student.create(student_params)
-				render json: {message:'Estudante Salvo', data:students},status: :ok
+				render json: students
             end
             
             
             def remove
                 student = Student.find(params[:id]).destroy;
-                render json: {message:'Estudante Excluido', data:student},status: :ok
+                render json: student
             end
 
 
