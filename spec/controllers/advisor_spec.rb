@@ -20,10 +20,10 @@ RSpec.describe Api::V1::AdvisorsController, type: :controller do
 
   describe "POST save" do
     it "Gravar Orientador" do
-      orientador = fabricaOrientador();
-      post :save, params: { name: orientador[:name], area: orientador[:area] }
-      retorno = JSON.parse(response.body)
-      expect(orientador[:name]).to eq retorno["name"]
+      new_orientador = fabricaOrientador();
+      post :save, params: new_orientador
+      orientador = JSON.parse(response.body)
+      expect(new_orientador[:name]).to eq orientador["name"]
     end
   end
 
@@ -39,11 +39,11 @@ RSpec.describe Api::V1::AdvisorsController, type: :controller do
   describe "PUT update" do
     it "Atualizar a correct value of Orientador" do
       orientador_id = randomOrientador().id
-      orientador = fabricaOrientador();
-      put :update, params: { id: orientador_id}.merge(orientador)
-      retorno = JSON.parse(response.body)
-      expect(orientador[:name]).to eq retorno["name"] 
-      expect(orientador[:area]).to eq retorno["area"] 
+      new_orientador = fabricaOrientador();
+      put :update, params: { id: orientador_id}.merge(new_orientador)
+      orientador = JSON.parse(response.body)
+      expect(new_orientador[:name]).to eq orientador["name"] 
+      expect(new_orientador[:area]).to eq orientador["area"] 
     end
   end
 
