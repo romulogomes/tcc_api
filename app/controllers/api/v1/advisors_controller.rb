@@ -14,8 +14,12 @@ module Api
             end
 
             def save
-				orientador = Advisor.create(orientador_params)
-				render json: orientador
+                orientador = Advisor.create(orientador_params)
+                if orientador.id?
+                    render json: orientador
+                else
+                    render json: orientador.errors, status: 400
+                end
             end
 
             def update
@@ -24,6 +28,8 @@ module Api
             end
 
             def remove
+                # render json: {}
+
                 student = Student.where("advisor_id = "+params[:id]).exists?;
                 if student 
                     render json: { error: :locked, message: 'Orientador tem filhos' }, status: 400
