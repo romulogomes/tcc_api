@@ -3,7 +3,8 @@ module Api
         class AdvisorsController < ApplicationController
            
             def index
-				orientadores = Advisor.all;
+                # Advisor.all
+				orientadores = Advisor.limit(10);
 				render json: orientadores
             end
 
@@ -25,11 +26,7 @@ module Api
             def remove
                 student = Student.where("advisor_id = "+params[:id]).exists?;
                 if student 
-                    render json: {
-                        status: 400,
-                        error: :locked,
-                        message: 'Orientador tem filhos'
-                        }, status: 400
+                    render json: { error: :locked, message: 'Orientador tem filhos' }, status: 400
                 else
                     orientador = Advisor.find(params[:id]).destroy;
                     render json: orientador

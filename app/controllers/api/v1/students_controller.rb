@@ -3,8 +3,9 @@ module Api
 		class StudentsController < ApplicationController
       			
 			# Listar todos os artigos
-			def mostrar
-				students = Student.all;
+            def mostrar
+                # Student.all
+				students = Student.limit(10);
 				render json: {message:'Estudantes carregados', data:students},status: :ok
 			end
  
