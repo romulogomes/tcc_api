@@ -1,1 +1,1 @@
-Projeto de Estudos Rails API e Rspec
+Projeto de Estudos Rails API
