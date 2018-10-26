@@ -15,11 +15,11 @@ module Api
 
             def save
                 orientador = Advisor.create(orientador_params)
-                if orientador.id?
+                # if orientador.id?
                     render json: orientador
-                else
-                    render json: orientador.errors, status: 400
-                end
+                # else
+                    # render json: orientador.errors, status: 400
+                # end
             end
 
             def update
