@@ -13,7 +13,7 @@ development:
   database: tcc
 test:
   <<: *default
-  database: tcc
+  database: tcc_test
 
 production:
   <<: *default
