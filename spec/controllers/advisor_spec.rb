@@ -21,7 +21,8 @@ RSpec.describe Api::V1::AdvisorsController, type: :controller do
   describe "POST save" do
     it "Gravar Orientador" do
       new_orientador = fabricaOrientador();
-      post :save, params: new_orientador
+      expect { post :save, params: new_orientador }.to change { Advisor.count }.from(4).to(5)
+
       orientador = JSON.parse(response.body)
       expect(new_orientador[:name]).to eq orientador["name"]
     end
@@ -49,7 +50,7 @@ RSpec.describe Api::V1::AdvisorsController, type: :controller do
 
   private 
   def fabricaOrientador()
-      return { name: Faker::Name.name, area: Faker::Science.element }
+      return { name: "AAA", area: Faker::Science.element }
   end
 
   def randomOrientador()
