@@ -4,7 +4,7 @@
 
 FactoryBot.define do
   factory :student do
-    name Faker::Name.name
+    name { Faker::Name.unique.name }
     association :advisor, factory: :advisor
   end
 end

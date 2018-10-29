@@ -4,7 +4,7 @@
 
 FactoryBot.define do
   factory :advisor do
-    name Faker::Name.name
-    area Faker::Lorem.word
+    name { Faker::Name.unique.name }
+    area { Faker::Lorem.word }
   end
 end
