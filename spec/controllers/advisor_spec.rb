@@ -1,70 +1,62 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::AdvisorsController, type: :controller do
+  let(:orientador) { FactoryBot.create(:advisor) }
   let(:body) { JSON.parse(response.body) }
 
-  describe "POST save" do
-    let(:advisor) { FactoryBot.attributes_for(:advisor) }
-    it "Gravar Orientador" do  
-      post :save, params: advisor
-      orientador = body
-      expect(orientador[:nome]).to eq advisor["name"]
-    end 
-
-    
-    it "Gravar Orientador" do  
-      # post :save, params: advisor
-      # orientador = JSON.parse(response.body)
-      # expect("got").to eq advisor
-    end 
+  describe "GET index" do
+    it "Retornar 10 registros" do
+      20.times { FactoryBot.create(:advisor, name: Faker::Name.name) }
+      get :index
+      response = body
+      expect(response.size).to eq(10)
+    end
   end
 
-  # describe "DELETE remove" do
-  #   it "Remover um orientador caso não tenha Aluno ligado a Ele" do
-  #     orientador_id = randomOrientador().id
-  #     statusEsperado = Student.where("advisor_id = "+orientador_id.to_s).exists? ? 400 : 200
-  #     delete :remove, params: { id: orientador_id }
-  #     orientador = JSON.parse(response.body)
-  #     expect(response.status).to eq statusEsperado
-  #   end
-  # end
+  describe "GET find" do  
+    it "should be return a correct value of Orientador" do
+      get :find, params: { id: orientador.id }
+      response = body
+      expect(response["id"]).to eq orientador["id"]
+    end
+  end
+  
+  describe "POST save" do
+    it "Gravar Orientador" do  
+      orientador = FactoryBot.attributes_for(:advisor)
+      post :save, params: orientador
+      response = body
+      expect(response[:nome]).to eq orientador["name"]
+    end
+    
+    it "Não gravar orientador com mesmo nome" do  
+      post :save, params: { name: orientador[:name], area: "Rails" }
+      response = body
+      expect(response["id"]).to be nil
+    end
+  end
 
-  # describe "POST save" do
-  #   it "Gravar Orientador" do
-  #     # orientador = FactoryBot.build(:admin)
+  describe "PUT update" do
+    it "Atualizar a correct value do Orientador" do
+      name = "Joao"
+      put :update, params: { id: orientador[:id],  name: name, area: "DB"}
+      response = body
+      expect(response["name"]).to eq name
+    end
+  end
 
-  #     new_orientador = fabricaOrientador();
-  #     expect { post :save, params: new_orientador }.to change { Advisor.count }.from(4).to(5)
-  #     orientador = JSON.parse(response.body)
+  describe "DELETE remove" do
+    it "Remover um orientador" do
+      delete :remove, params: { id: orientador[:id] }
+      response = body
+      expect(response["id"]).to eq orientador["id"]
+    end
 
-  #     expect("GOT").to eq orientador[:name]
-  #   end
-  # end
-
-  # describe "GET find" do
-  #   it "should be return a correct value of Orientador" do
-  #     orientador_id = randomOrientador().id
-  #     get :find, params: { id: orientador_id }
-  #     orientador = JSON.parse(response.body)
-  #     expect(orientador_id).to eq orientador["id"]
-  #   end
-  # end
-
-  # describe "PUT update" do
-  #   it "Atualizar a correct value of Orientador" do
-  #     orientador_id = randomOrientador().id
-  #     new_orientador = fabricaOrientador();
-  #     put :update, params: { id: orientador_id}.merge(new_orientador)
-  #     orientador = JSON.parse(response.body)
-  #     expect(new_orientador[:name]).to eq orientador["name"] 
-  #     expect(new_orientador[:area]).to eq orientador["area"] 
-  #   end
-  # end
-
-  # private 
-  # def fabricaOrientador()
-  #     return { name: "AAA", area: Faker::Science.element }
-  # end
-
-
+    it "Não Remover um orientador caso não tenha Aluno ligado a Ele" do
+      aluno = FactoryBot.create(:student, advisor_id: orientador["id"])
+      delete :remove, params: { id: orientador["id"] }
+      res = response
+      expect(res).to have_http_status(400)
+    end
+  end
 end
