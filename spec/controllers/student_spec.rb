@@ -14,6 +14,33 @@ RSpec.describe Api::V1::StudentsController, type: :controller do
         end
     end
 
+    describe "GET find" do
+        it "Retorna unico Estudante" do
+            get :find, params: { id: estudante }
+            response = body
+            expect(response["id"]).to eq estudante["id"] 
+        end
+    end
+    
+    describe "POST save" do
+        it "Gravar Estudante" do
+            estudante = { name: "Acer Ven", advisor_id: orientador[:id]}
+            post :save, params: estudante
+            response = body
+            expect(response[:nome]).to eq estudante[:nome]
+        end
+    end
+
+    describe "PUT update" do
+        it "Atualizar Estudante" do
+        new_estudante = { id: estudante[:id], advisor_id: orientador[:id],  name: "Clarice"}
+        put :update, params: new_estudante
+        response = body
+        expect(response[:name]).to eq new_estudante["name"] 
+        expect(response[:advisor_id]).to eq new_estudante["advisor_id"]
+        end
+    end
+
     describe "DELETE remove" do
         it "Remover um Estudante" do
             delete :remove, params: { id: estudante[:id] }
@@ -21,33 +48,4 @@ RSpec.describe Api::V1::StudentsController, type: :controller do
             expect(response["id"]).to eq estudante["id"] 
         end
     end
-
-    describe "POST save" do
-        it "Gravar Aluno" do
-            aluno = { name: "Acer Ven", advisor_id: orientador[:id]}
-            post :save, params: aluno
-            response = body
-            expect(response[:nome]).to eq aluno[:nome]
-        end
-    end
-
-    # describe "GET find" do
-    #     it "Retorna unico aluno" do
-    #     aluno_id = randomAluno().id
-    #     get :find, params: { id: aluno_id }
-    #     aluno = JSON.parse(response.body)
-    #     expect(aluno_id).to eq aluno["id"] 
-    #     end
-    # end
-
-    # describe "PUT update" do
-    #     it "Atualizar a correct value do Aluno" do
-    #     aluno_id = randomAluno().id
-    #     new_aluno = fabricaAluno()
-    #     put :update, params: { id: aluno_id}.merge(new_aluno)
-    #     aluno = JSON.parse(response.body)
-    #     expect(new_aluno[:name]).to eq aluno["name"] 
-    #     expect(new_aluno[:advisor_id]).to eq aluno["advisor_id"]
-    #     end
-    # end
 end
