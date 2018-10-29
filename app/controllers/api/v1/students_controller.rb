@@ -8,8 +8,7 @@ module Api
 				students = Student.limit(10);
 				render json: students
 			end
- 
-            
+           
             def find
                 student = Student.exists?(params[:id]) ? Student.find(params[:id]) : {};
                 advisor = Advisor.exists?(student.advisor_id) ? Advisor.find(student.advisor_id) : {};
@@ -17,14 +16,13 @@ module Api
                 render json: student
             end
             
-
             def exibe_dados_completos
                 estudantes = [];
-                for student in Student.all do
+                Student.all.each { |student| 
                     advisor = Advisor.exists?(student.advisor_id) ? Advisor.find(student.advisor_id) : {};
                     student = student.as_json.merge(:orientador => advisor);
                     estudantes.push(student);
-                end
+                }
                 render :json => estudantes
             end
 
@@ -39,12 +37,10 @@ module Api
 				render json: student
             end
             
-            
             def remove
                 student = Student.find(params[:id]).destroy;
                 render json: student
             end
-
 
 			private
 			def student_params
