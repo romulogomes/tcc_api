@@ -34,7 +34,7 @@ RSpec.describe Api::V1::StudentsController, type: :controller do
 
     describe "GET index" do
         it "Retornar 10 itens" do
-            20.times do |i| FactoryBot.create(:student, name: Faker::Name.name+i.to_s, advisor_id: orientador[:id]) end
+            20.times { FactoryBot.create(:student, name: Faker::Name.unique.name, advisor_id: orientador[:id]) }
             get :mostrar
             response = body
             expect(response.size).to eq(10)

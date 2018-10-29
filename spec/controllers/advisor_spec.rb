@@ -44,7 +44,7 @@ RSpec.describe Api::V1::AdvisorsController, type: :controller do
 
   describe "GET index" do
     it "Retornar 10 registros" do
-      20.times do |i| FactoryBot.create(:advisor, name: Faker::Name.name+i.to_s) end
+      20.times { FactoryBot.create(:advisor, name: Faker::Name.unique.name) }
       get :index
       response = body
       expect(response.size).to eq(10)
