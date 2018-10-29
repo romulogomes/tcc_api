@@ -4,17 +4,8 @@ RSpec.describe Api::V1::AdvisorsController, type: :controller do
   let(:orientador) { FactoryBot.create(:advisor) }
   let(:body) { JSON.parse(response.body) }
 
-  describe "GET index" do
-    it "Retornar 10 registros" do
-      20.times { FactoryBot.create(:advisor, name: Faker::Name.name) }
-      get :index
-      response = body
-      expect(response.size).to eq(10)
-    end
-  end
-
   describe "GET find" do  
-    it "should be return a correct value of Orientador" do
+    it "Retornar um Orientador" do
       get :find, params: { id: orientador.id }
       response = body
       expect(response["id"]).to eq orientador["id"]
@@ -37,11 +28,26 @@ RSpec.describe Api::V1::AdvisorsController, type: :controller do
   end
 
   describe "PUT update" do
-    it "Atualizar a correct value do Orientador" do
-      name = "Joao"
+    it "Atualizar Orientador" do
+      name = "Joao Contador"
       put :update, params: { id: orientador[:id],  name: name, area: "DB"}
       response = body
       expect(response["name"]).to eq name
+    end
+
+    it "Não Atualizar caso já haja Orientador com mesmo nome" do
+      put :update, params: { id: orientador[:id],  name: orientador[:name]}
+      response = body
+      expect(response["id"]).to be nil
+    end
+  end
+
+  describe "GET index" do
+    it "Retornar 10 registros" do
+      20.times do |i| FactoryBot.create(:advisor, name: Faker::Name.name+i.to_s) end
+      get :index
+      response = body
+      expect(response.size).to eq(10)
     end
   end
 

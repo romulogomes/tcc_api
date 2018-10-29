@@ -5,15 +5,6 @@ RSpec.describe Api::V1::StudentsController, type: :controller do
     let(:estudante) { FactoryBot.create(:student, advisor_id: orientador[:id]) }
     let(:body) { JSON.parse(response.body) }
     
-    describe "GET index" do
-        it "Retornar 200" do
-            20.times { FactoryBot.create(:student, name: Faker::Name.name, advisor_id: orientador[:id])}
-            get :mostrar
-            response = body
-            expect(response.size).to eq(10)
-        end
-    end
-
     describe "GET find" do
         it "Retorna unico Estudante" do
             get :find, params: { id: estudante }
@@ -24,7 +15,7 @@ RSpec.describe Api::V1::StudentsController, type: :controller do
     
     describe "POST save" do
         it "Gravar Estudante" do
-            estudante = { name: "Acer Ven", advisor_id: orientador[:id]}
+            estudante = FactoryBot.attributes_for(:student, advisor_id: orientador[:id])
             post :save, params: estudante
             response = body
             expect(response[:nome]).to eq estudante[:nome]
@@ -33,11 +24,29 @@ RSpec.describe Api::V1::StudentsController, type: :controller do
 
     describe "PUT update" do
         it "Atualizar Estudante" do
-        new_estudante = { id: estudante[:id], advisor_id: orientador[:id],  name: "Clarice"}
-        put :update, params: new_estudante
-        response = body
-        expect(response[:name]).to eq new_estudante["name"] 
-        expect(response[:advisor_id]).to eq new_estudante["advisor_id"]
+            estudante_update = { id: estudante[:id], advisor_id: orientador[:id],  name: "Clarice"}
+            put :update, params: estudante_update
+            response = body
+            expect(response[:name]).to eq estudante_update["name"] 
+            expect(response[:advisor_id]).to eq estudante_update["advisor_id"]
+        end
+    end
+
+    describe "GET index" do
+        it "Retornar 10 itens" do
+            20.times do |i| FactoryBot.create(:student, name: Faker::Name.name+i.to_s, advisor_id: orientador[:id]) end
+            get :mostrar
+            response = body
+            expect(response.size).to eq(10)
+        end
+    end
+
+    describe "POST exibe_dados_completos" do
+        it "Exibe dados completo" do
+            FactoryBot.create(:student, advisor_id: orientador[:id])
+            post :exibe_dados_completos
+            response = body
+            expect(response[0]["orientador"]["id"]).to eq orientador[:id]
         end
     end
 
