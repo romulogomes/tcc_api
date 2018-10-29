@@ -27,13 +27,14 @@ module Api
             end
 
             def update
-                student = Student.find(student_params["id"]).update(student_params)
+                student = Student.find(student_params["id"])
+                student.update(student_params)
                 render json: Student.find(student_params["id"])
             end
 
                   
             def save
-				student = Student.create(student_params)
+			    student = Student.create(student_params)
 				render json: student
             end
             

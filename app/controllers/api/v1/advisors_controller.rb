@@ -23,8 +23,9 @@ module Api
                     orientador = { id: nil};
                     render json: orientador   
                 else
-                    orientador = Advisor.find(orientador_params["id"]).update(orientador_params)
-                    render json: Advisor.find(orientador_params["id"])
+                    orientador = Advisor.find(orientador_params["id"])
+                    orientador.update(orientador_params)
+                    render json: orientador
                 end
             end
 
