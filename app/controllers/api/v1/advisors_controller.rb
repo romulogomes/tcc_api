@@ -23,8 +23,13 @@ module Api
             end
 
             def update
-                orientador = Advisor.find(orientador_params["id"]).update(orientador_params)
-				render json: orientador = Advisor.find(orientador_params["id"])
+                if Advisor.exists?(name: orientador_params["name"])
+                    orientador = { id: nil};
+                    render json: orientador   
+                else
+                    orientador = Advisor.find(orientador_params["id"]).update(orientador_params)
+                    render json: Advisor.find(orientador_params["id"])
+                end
             end
 
             def remove
