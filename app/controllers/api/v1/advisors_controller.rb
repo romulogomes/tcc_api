@@ -28,8 +28,6 @@ module Api
             end
 
             def remove
-                # render json: {}
-
                 student = Student.where("advisor_id = "+params[:id]).exists?;
                 if student 
                     render json: { error: :locked, message: 'Orientador tem filhos' }, status: 400

@@ -6,7 +6,7 @@ module Api
             def mostrar
                 # Student.all
 				students = Student.limit(10);
-				render json: {message:'Estudantes carregados', data:students},status: :ok
+				render json: students
 			end
  
             
@@ -35,8 +35,8 @@ module Api
 
                   
             def save
-				students = Student.create(student_params)
-				render json: students
+				student = Student.create(student_params)
+				render json: student
             end
             
             

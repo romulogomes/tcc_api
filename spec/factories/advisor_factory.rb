@@ -5,6 +5,6 @@
 FactoryBot.define do
   factory :advisor do
     name Faker::Name.name
-    area Faker::Name.name
+    area Faker::Lorem.word
   end
 end
