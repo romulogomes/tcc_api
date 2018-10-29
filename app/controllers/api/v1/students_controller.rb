@@ -21,7 +21,7 @@ module Api
                 Student.all.each { |student| 
                     advisor = Advisor.exists?(student.advisor_id) ? Advisor.find(student.advisor_id) : {};
                     student = student.as_json.merge(:orientador => advisor);
-                    estudantes.push(student);
+                    estudantes << student;
                 }
                 render :json => estudantes
             end
