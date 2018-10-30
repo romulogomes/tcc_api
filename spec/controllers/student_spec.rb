@@ -18,7 +18,8 @@ RSpec.describe Api::V1::StudentsController, type: :controller do
             estudante = FactoryBot.attributes_for(:student, advisor_id: orientador[:id])
             post :save, params: estudante
             response = body
-            expect(response[:nome]).to eq estudante[:nome]
+            expect(response["nome"]).to eq estudante[:nome]
+            expect(response["advisor_id"]).to eq estudante[:advisor_id]
         end
     end
 
