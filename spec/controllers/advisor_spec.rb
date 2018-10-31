@@ -20,8 +20,9 @@ RSpec.describe Api::V1::AdvisorsController, type: :controller do
       expect(response[:nome]).to eq orientador["name"]
     end
     
-    it "Não gravar orientador com mesmo nome" do  
-      post :save, params: { name: orientador[:name], area: "Rails" }
+    it "Não gravar orientador com mesmo nome" do
+      new_orientador = FactoryBot.create(:advisor)
+      post :save, params: { name: new_orientador[:name], area: "Rails" }
       response = body
       expect(response["id"]).to be nil
     end
@@ -29,14 +30,16 @@ RSpec.describe Api::V1::AdvisorsController, type: :controller do
 
   describe "PUT update" do
     it "Atualizar Orientador" do
+      new_orientador = FactoryBot.create(:advisor)
       name = "Joao Contador"
-      put :update, params: { id: orientador[:id],  name: name, area: "DB"}
+      put :update, params: { id: new_orientador[:id],  name: name, area: "Fiscal"}
       response = body
       expect(response["name"]).to eq name
     end
 
     it "Não Atualizar caso já haja Orientador com mesmo nome" do
-      put :update, params: { id: orientador[:id],  name: orientador[:name]}
+      new_orientador = FactoryBot.create(:advisor)
+      put :update, params: { id: new_orientador[:id],  name: new_orientador[:name]}
       response = body
       expect(response["id"]).to be nil
     end

@@ -26,7 +26,8 @@ RSpec.describe Api::V1::StudentsController, type: :controller do
 
     describe "PUT update" do
         it "Atualizar Estudante" do
-            estudante_update = { id: estudante[:id], advisor_id: orientador[:id],  name: "Clarice"}
+            new_estudante = FactoryBot.create(:student, advisor_id: orientador[:id])
+            estudante_update = { id: new_estudante[:id], advisor_id: orientador[:id],  name: "Clarice"}
             put :update, params: estudante_update
             response = body
             # binding.pry
@@ -55,9 +56,10 @@ RSpec.describe Api::V1::StudentsController, type: :controller do
 
     describe "DELETE remove" do
         it "Remover um Estudante" do
-            delete :remove, params: { id: estudante[:id] }
+            new_estudante = FactoryBot.create(:student, advisor_id: orientador[:id])
+            delete :remove, params: { id: new_estudante[:id] }
             response = body
-            expect(response["id"]).to eq estudante["id"] 
+            expect(response["id"]).to eq new_estudante["id"] 
         end
     end
 end
