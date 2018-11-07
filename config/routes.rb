@@ -19,7 +19,10 @@ Rails.application.routes.draw do
       get    'contas' => 'contas#index'
 
       get    'lancamentos' => 'lancamentos#index'
+      get    'lancamentos/:id' => 'lancamentos#find' 
       post   'lancamentos' => 'lancamentos#save'
+      put    'lancamentos' => 'lancamentos#update'
+      delete 'lancamentos/:id'  => 'lancamentos#remove'
   	end
   end
 end
