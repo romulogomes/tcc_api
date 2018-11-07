@@ -9,13 +9,14 @@ module Api
 			end
 
 			def find
-				lancamentos = Lancamento.exists?(params[:id]) ? Lancamento.find(params[:id]) : {};
-				render json: lancamentos
+				lancamento = Lancamento.exists?(params[:id]) ? Lancamento.find(params[:id]) : {};
+				lancamento = lancamento.as_json.merge(:conta_credito => lancamento.contas_credito, :conta_debito => lancamento.contas_debito);
+				binding.pry
+				render json: lancamento
 			end
 			                 
             def save
 				lancamento = Lancamento.create(lancamentos_params)
-				binding.pry
 				render json: lancamento
 			end
 			
