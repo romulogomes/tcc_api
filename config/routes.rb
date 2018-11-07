@@ -9,20 +9,20 @@ Rails.application.routes.draw do
       put    'students'                 => 'students#update' 
       delete 'students/:id'             => 'students#remove'
 
-      get    'orientadores' => 'advisors#index'
-      get    'orientadores/:id' => 'advisors#find'     
-      post   'orientadores' => 'advisors#save'
-      post   'orientadores/all' => 'advisors#save_all'
-      put    'orientadores' => 'advisors#update'
-      delete 'orientadores/:id'  => 'advisors#remove'
+      get    'orientadores'             => 'advisors#index'
+      get    'orientadores/:id'         => 'advisors#find'     
+      post   'orientadores'             => 'advisors#save'
+      post   'orientadores/all'         => 'advisors#save_all'
+      put    'orientadores'             => 'advisors#update'
+      delete 'orientadores/:id'         => 'advisors#remove'
 
       get    'contas' => 'contas#index'
 
-      get    'lancamentos' => 'lancamentos#index'
+      get    'lancamentos' =>     'lancamentos#index'
       get    'lancamentos/:id' => 'lancamentos#find' 
-      post   'lancamentos' => 'lancamentos#save'
-      put    'lancamentos' => 'lancamentos#update'
-      delete 'lancamentos/:id'  => 'lancamentos#remove'
+      post   'lancamentos' =>     'lancamentos#save'
+      put    'lancamentos' =>     'lancamentos#update'
+      delete 'lancamentos/:id' => 'lancamentos#remove'
   	end
   end
 end
