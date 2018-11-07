@@ -18,6 +18,15 @@ module Api
                 render json: orientador
             end
 
+            def save_all
+                orientadores = params[:_json]
+                orientadores.map{ |orientador| 
+                    params.permit!
+                    Advisor.create(orientador)
+                }
+                render json: orientadores
+            end
+
             def update
                 if Advisor.exists?(name: orientador_params["name"])
                     orientador = { id: nil};
