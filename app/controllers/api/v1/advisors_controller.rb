@@ -3,7 +3,7 @@ module Api
         class AdvisorsController < ApplicationController
            
             def index
-				orientadores = Advisor.all;
+                orientadores = Advisor.all;
 				render json: orientadores
             end
 
@@ -13,8 +13,17 @@ module Api
             end
 
             def save
-				orientador = Advisor.create(orientador_params)
+                orientador = Advisor.create(orientador_params)
 				render json: orientador
+            end
+
+            def save_all
+                orientadores = params[:_json]
+                orientadores.map{ |orientador| 
+                    params.permit!
+                    Advisor.create(orientador)
+                }
+                render json: orientadores
             end
 
             def update
