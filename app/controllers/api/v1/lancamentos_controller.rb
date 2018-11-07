@@ -7,30 +7,33 @@ module Api
 				lancamentos = Lancamento.all
 				render json: lancamentos
 			end
-			
-			# def update
-            #     student = Student.find(lancamentos_params["id"]).update(lancamentos_params)
-            #     render json: Student.find(lancamentos_params["id"])
-            # end
-                  
+
+			def find
+				lancamentos = Lancamento.exists?(params[:id]) ? Lancamento.find(params[:id]) : {};
+				render json: lancamentos
+			end
+			                 
             def save
 				lancamento = Lancamento.create(lancamentos_params)
+				binding.pry
 				render json: lancamento
+			end
+			
+			def update
+				lancamento = Lancamento.find(lancamentos_params["id"])
+				lancamento.update(lancamentos_params)
+                render json: lancamento
             end
-            
-            
-            # def remove
-            #     student = Student.find(params[:id]).destroy;
-            #     render json: student
-            # end
-
+                      
+            def remove
+                lancamento = Lancamento.find(params[:id]).destroy;
+                render json: lancamento
+            end
 
 			private
 			def lancamentos_params
 				params.permit(:id, :conta_credito, :conta_debito, :valor, :historico)
 			end
-
-			## conta_debito
         end
     end
 end
