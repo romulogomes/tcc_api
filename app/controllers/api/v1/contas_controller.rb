@@ -25,8 +25,16 @@ module Api
             end
 
             def remove
-                conta = Conta.find(params[:id]).destroy;
-                render json: conta
+                # conta = Conta.find(params[:id]).destroy;
+                # render json: conta
+
+                lancamento = Lancamento.where("conta_credito = "+params[:id]+" or conta_debito = "+params[:id]).exists?;
+                if lancamento 
+                    render json: { error: :locked, message: 'Conta tem Lançamentos' }, status: 400
+                else
+                    conta = Conta.find(params[:id]).destroy;
+                    render json: conta
+                end
             end
             
             private
