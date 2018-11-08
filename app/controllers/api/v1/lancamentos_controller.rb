@@ -4,14 +4,17 @@ module Api
       			
 			def index
 				# lancamentos = Lancamento.all;
-				lancamentos = Lancamento.all
+				lancamentos = [];
+				Lancamento.all.each { |lancamento|
+					lancamento = lancamento.as_json.merge(:conta_credito => lancamento.contas_credito, :conta_debito => lancamento.contas_debito);		
+					lancamentos << lancamento
+				}
 				render json: lancamentos
 			end
 
 			def find
 				lancamento = Lancamento.exists?(params[:id]) ? Lancamento.find(params[:id]) : {};
 				lancamento = lancamento.as_json.merge(:conta_credito => lancamento.contas_credito, :conta_debito => lancamento.contas_debito);
-				binding.pry
 				render json: lancamento
 			end
 			                 
@@ -33,7 +36,7 @@ module Api
 
 			private
 			def lancamentos_params
-				params.permit(:id, :conta_credito, :conta_debito, :valor, :historico)
+				params.permit(:id, :conta_credito, :conta_debito, :valor, :historico, :data)
 			end
         end
     end
