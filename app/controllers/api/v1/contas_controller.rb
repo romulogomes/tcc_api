@@ -19,15 +19,17 @@ module Api
             end
 
             def update
-				conta = Conta.find(contas_params["id"])
-				conta.update(contas_params)
-                render json: conta
+                if Conta.exists?(codigo: contas_params["codigo"])
+                    render json: { error: :locked, message: 'Já existe conta com esse código'}, status: 400   
+                else
+                    conta = Conta.find(contas_params["id"])
+				    conta.update(contas_params)
+                    render json: conta
+                end
+				
             end
 
             def remove
-                # conta = Conta.find(params[:id]).destroy;
-                # render json: conta
-
                 lancamento = Lancamento.where("conta_credito = "+params[:id]+" or conta_debito = "+params[:id]).exists?;
                 if lancamento 
                     render json: { error: :locked, message: 'Conta tem Lançamentos' }, status: 400
