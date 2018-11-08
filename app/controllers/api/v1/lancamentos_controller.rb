@@ -5,7 +5,7 @@ module Api
 			def index
 				# lancamentos = Lancamento.all;
 				lancamentos = [];
-				Lancamento.all.each { |lancamento|
+				Lancamento.all.order(:id).each { |lancamento|
 					lancamento = lancamento.as_json.merge(:conta_credito => lancamento.contas_credito, :conta_debito => lancamento.contas_debito);		
 					lancamentos << lancamento
 				}

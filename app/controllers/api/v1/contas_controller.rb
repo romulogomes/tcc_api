@@ -3,7 +3,7 @@ module Api
         class ContasController < ApplicationController
 
             def index
-                contas = Conta.all;
+                contas = Conta.all.order(:id);
                 # contas = Conta.find(2);
 				render json: contas
             end
