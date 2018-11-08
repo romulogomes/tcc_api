@@ -26,7 +26,18 @@ RSpec.describe Api::V1::LancamentosController, type: :controller do
             expect(response["historico"]).to eq lancamento[:historico]
         end
 
-        it "Não gravar lançamento sem conta"
+        it "Não gravar lançamento sem conta" do
+            lancamento = FactoryBot.attributes_for(:lancamento)
+            post :save, params: lancamento
+            response = body
+            expect(response[:id]).to be nil
+        end
+
+        it "Não gravar lançamento sem valor" do
+            lancamento = { historico: "Conta a pagar", conta_credito: conta_credito[:id], conta_debito: conta_debito[:id]}
+            post :save, params: lancamento
+            response = body
+            expect(response[:id]).to be nil
         end
     end
 
