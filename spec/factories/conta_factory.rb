@@ -7,6 +7,7 @@ FactoryBot.define do
 
         trait :natureza_credora do
             natureza { 'C' }
+            codigo { "2.1" }
         end
     end
 end
