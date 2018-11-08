@@ -16,13 +16,17 @@ Rails.application.routes.draw do
       put    'orientadores'             => 'advisors#update'
       delete 'orientadores/:id'         => 'advisors#remove'
 
-      get    'contas' => 'contas#index'
+      get    'contas'                   => 'contas#index'
+      get    'contas/:id'               => 'contas#find'
+      post   'contas'                   => 'contas#save'     
+      put    'contas'                   => 'contas#update'     
+      delete 'contas/:id'               => 'contas#remove'
 
-      get    'lancamentos' =>     'lancamentos#index'
-      get    'lancamentos/:id' => 'lancamentos#find' 
-      post   'lancamentos' =>     'lancamentos#save'
-      put    'lancamentos' =>     'lancamentos#update'
-      delete 'lancamentos/:id' => 'lancamentos#remove'
+      get    'lancamentos'              => 'lancamentos#index'
+      get    'lancamentos/:id'          => 'lancamentos#find' 
+      post   'lancamentos'              => 'lancamentos#save'
+      put    'lancamentos'              => 'lancamentos#update'
+      delete 'lancamentos/:id'          => 'lancamentos#remove'
   	end
   end
 end
